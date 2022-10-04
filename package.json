@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend to full stack recipe app",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pacalabre/recipe-app-backend.git"
+  },
+  "author": "Paul Calabrese",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pacalabre/recipe-app-backend/issues"
+  },
+  "homepage": "https://github.com/pacalabre/recipe-app-backend#readme"
+}
