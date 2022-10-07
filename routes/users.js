@@ -1,67 +1,70 @@
 const express = require("express");
 const router = express.Router();
+const { User } = require("../models/users");
 
-const users = [
-  {
-    id: 1,
-    userName: "beAnz",
-  },
-  {
-    id: 2,
-    userName: "paul",
-  },
-  {
-    id: 3,
-    userName: "eileen",
-  },
-];
-
-router.get("/", (req, res) => {
-  res.send(users);
+router.get("/", async (req, res) => {
+  try {
+    const user = await User.find();
+    res.send(user);
+  } catch (error) {
+    res.send(`There was an error: ${error}`);
+  }
 });
 
-router.get("/:id", (req, res) => {
-  const user = users.find((user) => user.id.toString() === req.params.id);
-  if (!user) {
-    res.status(404).send("User not found");
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.status(404).send("User not found");
+    }
+    res.send(user);
+  } catch (error) {
+    res.send(`There was an error ${error}`);
   }
-  res.send(user);
 });
 
-router.post("/", (req, res) => {
-  const user = users.find((user) => user.id === req.body.id);
-
-  if (user) {
-    res.send("user is already registered");
-    return;
+router.post("/", async (req, res) => {
+  //Add Validation
+  try {
+    const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password,
+    });
+    newSavedUser = await newUser.save();
+    res.send(newSavedUser);
+  } catch (error) {
+    res.send(`There was an error: ${error}`);
   }
-  const newUser = {
-    id: req.body.id,
-    userName: req.body.userName,
-  };
-  users.push(newUser);
-  res.send(users);
 });
 
-router.put("/:id", (req, res) => {
-  const user = users.find((user) => user.id === req.body.id);
-  if (!user) {
-    res.send("user not found");
-    return;
+router.put("/:id", async (req, res) => {
+  // Add Validation
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password,
+    });
+    if (!user) {
+      res.status(404).send("User not found");
+    }
+    res.send(user);
+  } catch (error) {
+    res.send(`There was an error: ${error}`);
   }
-  user.userName = req.body.userName;
-  res.send(users);
 });
 
-router.delete("/:id", (req, res) => {
-  const user = users.find((user) => user.id.toString() === req.params.id);
-  if (!user) {
-    res.send("user not found");
-    return;
+router.delete("/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndRemove(req.params.id);
+    if (!user) {
+      res.status(404).send("User not found");
+    }
+    res.send(user);
+  } catch (error) {
+    res.send(`There was an error ${error}`);
   }
-  const indexOfUser = users.indexOf(user);
-  users.splice(indexOfUser, 1);
-  res.send(users);
 });
 
 module.exports = router;
