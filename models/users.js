@@ -48,9 +48,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-  tagsUsed: Array,
+  tagsUsed: [String],
   Avatar: String,
-  savedRecipes: Array,
+  savedRecipes: [String],
 });
 
 const User = new mongoose.model("User", userSchema);
