@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/users");
+const { User, validateUser } = require("../models/users");
 
 router.get("/", async (req, res) => {
   try {
@@ -24,11 +24,16 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  //Add Validation
+  const { error } = validateUser(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
   try {
     const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      userName: req.body.userName,
+      email: req.body.email,
       password: req.body.password,
     });
     newSavedUser = await newUser.save();
@@ -39,11 +44,16 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  // Add Validation
+  const { error } = validateUser(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
   try {
     const user = await User.findByIdAndUpdate(req.params.id, {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      email: req.body.email,
+      tagsUsed: req.body.tagsUsed,
       password: req.body.password,
     });
     if (!user) {
