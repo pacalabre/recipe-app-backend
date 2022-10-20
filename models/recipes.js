@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { tagSchema } = require("../models/tags");
 
 const recipeSchema = new mongoose.Schema({
   title: {
@@ -39,14 +40,36 @@ const recipeSchema = new mongoose.Schema({
     }),
     required: true,
   },
-  favorites: [String],
+  favorites: {
+    type: new mongoose.Schema({
+      _id: {
+        type: String,
+        required: true,
+      },
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
+      userName: {
+        type: String,
+        required: true,
+      },
+      avatar: {
+        type: String,
+      },
+    }),
+  },
   dateCreated: {
     type: Date,
     required: true,
     default: Date.now,
   },
   updatedOnDate: Date,
-  tags: [String],
+  tags: [tagSchema],
   link: String,
   easeOfMaking: {
     type: Number,

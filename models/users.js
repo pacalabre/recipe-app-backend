@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { tagSchema } = require("../models/tags");
+
+const savedRecipeSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+});
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -48,9 +60,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-  tagsUsed: [String],
-  Avatar: String,
-  savedRecipes: [String],
+  tagsUsed: [tagSchema],
+  avatar: String,
+  savedRecipes: [savedRecipeSchema],
 });
 
 const User = new mongoose.model("User", userSchema);
