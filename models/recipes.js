@@ -19,10 +19,25 @@ const recipeSchema = new mongoose.Schema({
   },
   image: String,
   author: {
-    type: String,
+    type: new mongoose.Schema({
+      _id: {
+        type: String,
+        required: true,
+      },
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
+      userName: {
+        type: String,
+        required: true,
+      },
+    }),
     required: true,
-    minlength: 1,
-    maxlength: 85,
   },
   favorites: [String],
   dateCreated: {

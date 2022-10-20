@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Recipe, validateRecipe } = require("../models/recipes");
+const { User } = require("../models/users");
 
 router.get("/", async (req, res) => {
   try {
@@ -25,15 +26,22 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { error } = validateRecipe(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
+  const author = await User.findById(req.body.author);
+  if (error || !author) {
+    if (error) return res.status(400).send(error.details[0].message);
+    if (!author) return res.status(400).send("Invalid Author");
   }
   try {
     const newRecipe = new Recipe({
       title: req.body.title,
       subtitle: req.body.subtitle,
       image: req.body.image,
-      author: req.body.author,
+      author: {
+        _id: author._id,
+        firstName: author.firstName,
+        lastName: author.lastName,
+        userName: author.userName,
+      },
       favorites: req.body.favorites,
       dateCreated: req.body.dateCreated,
       updatedOnDate: req.body.updatedOnDate,
@@ -50,19 +58,18 @@ router.post("/", async (req, res) => {
   } catch (error) {
     res.send(`There was an error: ${error}`);
   }
+  // If tags are used, save them to the author
+  // Add recipe to the authors
 });
 
 router.put("/:id", async (req, res) => {
   const { error } = validateRecipe(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
+  if (error) return res.status(400).send(error.details[0].message);
   try {
     const recipe = await Recipe.findByIdAndUpdate(req.params.id, {
       title: req.body.title,
       subtitle: req.body.subtitle,
       image: req.body.image,
-      author: req.body.author,
       favorites: req.body.favorites,
       dateCreated: req.body.dateCreated,
       updatedOnDate: req.body.updatedOnDate,
