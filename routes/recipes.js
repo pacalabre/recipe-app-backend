@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Recipe, validateRecipe } = require("../models/recipes");
+const { Tag } = require("../models/tags");
 const { User } = require("../models/users");
 
 router.get("/", async (req, res) => {
@@ -27,6 +28,14 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { error } = validateRecipe(req.body);
   const author = await User.findById(req.body.author);
+  let tags = [];
+
+  try {
+    tags = await Tag.find({ _id: { $in: req.body.tags } });
+  } catch (error) {
+    return res.status(400).send(`Invalid Tags ${error}`);
+  }
+
   if (error || !author) {
     if (error) return res.status(400).send(error.details[0].message);
     if (!author) return res.status(400).send("Invalid Author");
@@ -45,7 +54,7 @@ router.post("/", async (req, res) => {
       favorites: req.body.favorites,
       dateCreated: req.body.dateCreated,
       updatedOnDate: req.body.updatedOnDate,
-      tags: req.body.tags,
+      tags: tags,
       link: req.body.link,
       easeOfMaking: req.body.easeOfMaking,
       totalMakeTime: req.body.totalMakeTime,

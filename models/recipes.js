@@ -2,6 +2,28 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 const { tagSchema } = require("../models/tags");
 
+const favoritesSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  userName: {
+    type: String,
+    required: true,
+  },
+  avatar: {
+    type: String,
+  },
+});
+
 const recipeSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -40,29 +62,7 @@ const recipeSchema = new mongoose.Schema({
     }),
     required: true,
   },
-  favorites: {
-    type: new mongoose.Schema({
-      _id: {
-        type: String,
-        required: true,
-      },
-      firstName: {
-        type: String,
-        required: true,
-      },
-      lastName: {
-        type: String,
-        required: true,
-      },
-      userName: {
-        type: String,
-        required: true,
-      },
-      avatar: {
-        type: String,
-      },
-    }),
-  },
+  favorites: [favoritesSchema],
   dateCreated: {
     type: Date,
     required: true,
