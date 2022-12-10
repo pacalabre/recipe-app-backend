@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const { User } = require("./models/users");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 require("./startup/routes")(app);
 require("./startup/db")(app);
 const passportConfig = require("./passportConfig")(passport);
@@ -20,13 +19,13 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "placeholder",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
   })
 );
 app.use(cookieParser("placeholder"));
@@ -38,7 +37,7 @@ app.use(passport.session());
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
-    if (!user) res.send("No User Exists");
+    if (!user) res.send("Incorrect Email or Password");
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
