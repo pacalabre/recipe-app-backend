@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const passport = require("passport");
 const users = require("../routes/users");
 const recipes = require("../routes/recipes");
@@ -9,6 +10,7 @@ const auth = require("../routes/auth");
 
 module.exports = function (app) {
   app.use(express.json());
+  app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
   app.use(express.urlencoded({ extended: true }));
   app.use(
     session({
@@ -20,6 +22,7 @@ module.exports = function (app) {
   app.use(cookieParser("placeholder"));
   app.use(passport.initialize());
   app.use(passport.session());
+  require("../passportConfig")(passport);
 
   app.use("/api/auth", auth);
   app.use("/api/users", users);

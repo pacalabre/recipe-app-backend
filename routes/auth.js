@@ -5,6 +5,10 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models/users");
 
+router.get("/user", (req, res) => {
+  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+});
+
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
