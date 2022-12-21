@@ -3,8 +3,9 @@ const router = express.Router();
 const { Recipe, validateRecipe } = require("../models/recipes");
 const { Tag } = require("../models/tags");
 const { User } = require("../models/users");
+const { ensureAuth } = require("../middleware/auth");
 
-router.get("/", async (req, res) => {
+router.get("/", ensureAuth, async (req, res) => {
   try {
     const recipe = await Recipe.find();
     res.send(recipe);

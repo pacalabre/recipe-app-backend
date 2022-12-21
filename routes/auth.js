@@ -46,7 +46,12 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/logout", function (req, res) {
-  req.logout();
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.send("User has been logged out");
+  });
 });
 
 module.exports = router;
