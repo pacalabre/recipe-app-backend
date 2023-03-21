@@ -53,7 +53,7 @@ router.post("/logout", function (req, res) {
     if (err) {
       return next(err);
     }
-    res.send("User has been logged out");
+    res.send({ message: "User has been logged out" });
   });
 });
 
