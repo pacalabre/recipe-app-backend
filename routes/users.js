@@ -17,7 +17,16 @@ router.get("/:id", async (req, res) => {
     if (!user) {
       res.status(404).send("User not found");
     }
-    res.send(user);
+    res.send({
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName,
+      email: user.email,
+      dateCreated: user.dateCreated,
+      tagsUsed: user.tagsUsed,
+      savedRecipes: user.savedRecipes,
+    });
   } catch (error) {
     res.send(`There was an error ${error}`);
   }
