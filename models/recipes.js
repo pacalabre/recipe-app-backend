@@ -75,6 +75,7 @@ const recipeSchema = new mongoose.Schema({
     type: Number,
     minimum: 0,
     maximum: 5,
+    required: true,
   },
   totalMakeTime: String,
   ingredients: [String],
