@@ -99,7 +99,7 @@ function validateRecipe(userRequest) {
     title: Joi.string().min(1).max(50).required(),
     subtitle: Joi.string().min(1).max(280).required(),
     image: Joi.string(),
-    author: Joi.string().min(1).max(85).required(),
+    author: Joi.object().required(),
     favorites: Joi.array(),
     dateCreated: Joi.date(),
     updatedOnDate: Joi.date(),
@@ -107,9 +107,11 @@ function validateRecipe(userRequest) {
     link: Joi.string(),
     easeOfMaking: Joi.number().min(1).max(5),
     totalMakeTime: Joi.string(),
-    ingredients: Joi.array().required(),
+    //ingredents should be required
+    ingredients: Joi.array(),
     description: Joi.string().min(1).max(5000),
-    steps: Joi.array().required(),
+    //steps will be required, but not for initial form buildout
+    steps: Joi.array(),
   });
   return schema.validate(userRequest);
 }

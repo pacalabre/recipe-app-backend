@@ -7,8 +7,8 @@ const { ensureAuth } = require("../middleware/auth");
 
 router.get("/", ensureAuth, async (req, res) => {
   try {
-    const recipe = await Recipe.find();
-    res.send(recipe);
+    const recipes = await Recipe.find();
+    res.send({ recipes });
   } catch (error) {
     res.send(`There was an error: ${error}`);
   }
