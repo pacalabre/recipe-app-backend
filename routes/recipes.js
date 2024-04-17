@@ -48,8 +48,7 @@ router.post("/", async (req, res) => {
       image: req.body.image,
       author: {
         _id: author._id,
-        firstName: author.firstName,
-        lastName: author.lastName,
+        name: author.name,
         userName: author.userName,
       },
       favorites: req.body.favorites,

@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { User, validateUser } = require("../models/users");
+const {
+  User,
+  validateNewUser,
+  validateUpdateUser,
+} = require("../models/users");
+const { Tag } = require("../models/tags");
 
 router.get("/", async (req, res) => {
   try {
@@ -19,8 +24,7 @@ router.get("/:id", async (req, res) => {
     }
     res.send({
       id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      name: user.name,
       userName: user.userName,
       email: user.email,
       dateCreated: user.dateCreated,
@@ -33,14 +37,13 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { error } = validateUser(req.body);
+  const { error } = validateNewUser(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
   try {
     const newUser = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      name: req.body.name,
       userName: req.body.userName,
       email: req.body.email,
       password: req.body.password,
@@ -53,17 +56,22 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { error } = validateUser(req.body);
+  const { error } = validateUpdateUser(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
+  let tags = [];
+
+  try {
+    tags = await Tag.find({ _id: { $in: req.body.tagsUsed } });
+  } catch (error) {
+    return res.status(400).send(`Invalid Tags ${error}`);
+  }
+
   try {
     const user = await User.findByIdAndUpdate(req.params.id, {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      tagsUsed: req.body.tagsUsed,
-      password: req.body.password,
+      savedRecipes: req.body.savedRecipes,
+      tagsUsed: tags,
     });
     if (!user) {
       res.status(404).send("User not found");
