@@ -5,10 +5,10 @@ const { Tag } = require("../models/tags");
 const { User } = require("../models/users");
 const { ensureAuth } = require("../middleware/auth");
 
-router.get("/", ensureAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const recipes = await Recipe.find();
-    res.send({ recipes });
+    res.send(recipes);
   } catch (error) {
     res.send(`There was an error: ${error}`);
   }
