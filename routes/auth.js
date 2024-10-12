@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models/users");
 
 router.get("/user", (req, res) => {
+  if (!req.user) res.status(404).send("There is no user currently logged in.");
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
