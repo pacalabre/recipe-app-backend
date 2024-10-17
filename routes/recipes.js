@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
       totalMakeTime: req.body.totalMakeTime,
       ingredients: req.body.ingredients,
       description: req.body.description,
-      instructions: req.body.instructions,
+      recipeInstructions: req.body.recipeInstructions,
     });
     newSavedRecipe = await newRecipe.save();
     res.send(newSavedRecipe);
@@ -88,7 +88,7 @@ router.put("/:id", async (req, res) => {
       totalMakeTime: req.body.totalMakeTime,
       ingredients: req.body.ingredients,
       description: req.body.description,
-      instructions: req.body.instructions,
+      recipeInstructions: req.body.recipeInstructions,
     });
     if (!recipe) {
       res.status(404).send("Recipe not found");

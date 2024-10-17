@@ -78,7 +78,7 @@ const recipeSchema = new mongoose.Schema({
     maxlength: 5000,
     trim: true,
   },
-  instructions: {
+  recipeInstructions: {
     type: String,
     required: true,
   },
@@ -103,8 +103,8 @@ function validateRecipe(userRequest) {
     //ingredents should be required
     ingredients: Joi.string(),
     description: Joi.string().min(1).max(5000),
-    //instructions will be required, but not for initial form buildout
-    instructions: Joi.string(),
+    //recipeInstructions will be required, but not for initial form buildout
+    recipeInstructions: Joi.string(),
   });
   return schema.validate(userRequest);
 }
