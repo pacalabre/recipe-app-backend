@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
   }
   try {
     const newRecipe = new Recipe({
-      title: req.body.title,
+      recipeName: req.body.recipeName,
       subtitle: req.body.subtitle,
       image: req.body.image,
       author: {
@@ -56,11 +56,11 @@ router.post("/", async (req, res) => {
       updatedOnDate: req.body.updatedOnDate,
       tags: tags,
       link: req.body.link,
-      easeOfMaking: req.body.easeOfMaking,
+      recipeDifficulty: req.body.recipeDifficulty,
       totalMakeTime: req.body.totalMakeTime,
       ingredients: req.body.ingredients,
       description: req.body.description,
-      steps: req.body.steps,
+      instructions: req.body.instructions,
     });
     newSavedRecipe = await newRecipe.save();
     res.send(newSavedRecipe);
@@ -76,7 +76,7 @@ router.put("/:id", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
   try {
     const recipe = await Recipe.findByIdAndUpdate(req.params.id, {
-      title: req.body.title,
+      recipeName: req.body.recipeName,
       subtitle: req.body.subtitle,
       image: req.body.image,
       favorites: req.body.favorites,
@@ -84,11 +84,11 @@ router.put("/:id", async (req, res) => {
       updatedOnDate: req.body.updatedOnDate,
       tags: req.body.tags,
       link: req.body.link,
-      easeOfMaking: req.body.easeOfMaking,
+      recipeDifficulty: req.body.recipeDifficulty,
       totalMakeTime: req.body.totalMakeTime,
       ingredients: req.body.ingredients,
       description: req.body.description,
-      steps: req.body.steps,
+      instructions: req.body.instructions,
     });
     if (!recipe) {
       res.status(404).send("Recipe not found");

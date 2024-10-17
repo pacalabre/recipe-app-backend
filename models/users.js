@@ -7,7 +7,7 @@ const savedRecipeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  title: {
+  recipeName: {
     type: String,
     required: true,
   },

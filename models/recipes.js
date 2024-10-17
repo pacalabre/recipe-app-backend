@@ -21,7 +21,7 @@ const favoritesSchema = new mongoose.Schema({
 });
 
 const recipeSchema = new mongoose.Schema({
-  title: {
+  recipeName: {
     type: String,
     required: true,
     minlength: 1,
@@ -63,14 +63,14 @@ const recipeSchema = new mongoose.Schema({
   updatedOnDate: Date,
   tags: [tagSchema],
   link: String,
-  easeOfMaking: {
+  recipeDifficulty: {
     type: Number,
     minimum: 0,
     maximum: 5,
     required: true,
   },
   totalMakeTime: String,
-  ingredients: [String],
+  ingredients: String,
   description: {
     type: String,
     required: true,
@@ -78,8 +78,8 @@ const recipeSchema = new mongoose.Schema({
     maxlength: 5000,
     trim: true,
   },
-  steps: {
-    type: [String],
+  instructions: {
+    type: String,
     required: true,
   },
 });
@@ -89,7 +89,7 @@ const Recipe = new mongoose.model("Recipe", recipeSchema);
 function validateRecipe(userRequest) {
   const schema = Joi.object({
     id: Joi.string(),
-    title: Joi.string().min(1).max(50).required(),
+    recipeName: Joi.string().min(1).max(50).required(),
     subtitle: Joi.string().min(1).max(280).required(),
     image: Joi.string(),
     author: Joi.object().required(),
@@ -98,13 +98,13 @@ function validateRecipe(userRequest) {
     updatedOnDate: Joi.date(),
     tags: Joi.array(),
     link: Joi.string(),
-    easeOfMaking: Joi.number().min(1).max(5),
+    recipeDifficulty: Joi.number().min(1).max(5),
     totalMakeTime: Joi.string(),
     //ingredents should be required
-    ingredients: Joi.array(),
+    ingredients: Joi.string(),
     description: Joi.string().min(1).max(5000),
-    //steps will be required, but not for initial form buildout
-    steps: Joi.array(),
+    //instructions will be required, but not for initial form buildout
+    instructions: Joi.string(),
   });
   return schema.validate(userRequest);
 }
