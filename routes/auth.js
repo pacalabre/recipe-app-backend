@@ -19,7 +19,14 @@ router.post("/login", (req, res, next) => {
         if (err) throw err;
         res.status(200).send({
           message: "Successfully Authenticated",
-          userId: req.user.id,
+          user: {
+            id: user._id,
+            name: user.name,
+            userName: user.userName,
+            email: user.email,
+            tagsUsed: user.tagsUsed,
+            savedRecipes: user.savedRecipes,
+          },
         });
       });
     }
