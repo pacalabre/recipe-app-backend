@@ -6,6 +6,7 @@ const {
   validateUpdateUser,
 } = require("../models/users");
 const { Tag } = require("../models/tags");
+const { Recipe } = require("../models/recipes");
 
 router.get("/", async (req, res) => {
   try {
@@ -31,6 +32,18 @@ router.get("/:id", async (req, res) => {
       tagsUsed: user.tagsUsed,
       savedRecipes: user.savedRecipes,
     });
+  } catch (error) {
+    res.send(`There was an error ${error}`);
+  }
+});
+
+router.get("/:id/recipes", async (req, res) => {
+  try {
+    const recipes = await Recipe.find({ ["author._id"]: req.params.id });
+    if (!recipes) {
+      res.status(404).send("User's Recipes not found");
+    }
+    res.send(recipes);
   } catch (error) {
     res.send(`There was an error ${error}`);
   }
