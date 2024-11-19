@@ -43,7 +43,18 @@ const recipeSchema = new mongoose.Schema({
     default: Date.now,
   },
   updatedOnDate: Date,
-  tags: [tagSchema],
+  tags: [
+    {
+      type: new mongoose.Schema({
+        _id: {
+          type: String,
+        },
+        tagName: {
+          type: String,
+        },
+      }),
+    },
+  ],
   link: String,
   recipeDifficulty: {
     type: Number,
