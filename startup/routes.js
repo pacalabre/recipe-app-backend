@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
@@ -7,6 +8,7 @@ const users = require("../routes/users");
 const recipes = require("../routes/recipes");
 const tags = require("../routes/tags");
 const auth = require("../routes/auth");
+const { default: mongoose } = require("mongoose");
 
 module.exports = function (app) {
   app.use(express.json());
@@ -17,6 +19,11 @@ module.exports = function (app) {
       secret: "placeholder",
       resave: false,
       saveUninitialized: false,
+      store: MongoStore.create({
+        mongoUrl: "mongodb://localhost/caladine",
+        ttl: 604800,
+      }),
+      //cookie: { secure: true },
     })
   );
   app.use(cookieParser("placeholder"));
