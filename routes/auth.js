@@ -7,7 +7,13 @@ const { User } = require("../models/users");
 
 router.get("/user", (req, res) => {
   if (!req.user) res.status(404).send("There is no user currently logged in.");
-  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+  const userToSend = {
+    id: req.user.id,
+    name: req.user.name,
+    userName: req.user.userName,
+    email: req.user.email,
+  };
+  res.send(userToSend);
 });
 
 router.post("/login", (req, res, next) => {
@@ -24,8 +30,6 @@ router.post("/login", (req, res, next) => {
             name: user.name,
             userName: user.userName,
             email: user.email,
-            tagsUsed: user.tagsUsed,
-            savedRecipes: user.savedRecipes,
           },
         });
       });
