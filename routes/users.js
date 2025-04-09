@@ -49,6 +49,18 @@ router.get("/:id/recipes", async (req, res) => {
   }
 });
 
+router.get("/:id/favoriteRecipes", async (req, res) => {
+  try {
+    const recipes = await Recipe.find({ ["favorites"]: req.params.id });
+    if (!recipes) {
+      res.status(404).send("User's favorite recipes not found");
+    }
+    res.send(recipes);
+  } catch (error) {
+    res.send(`There was an error ${error}`);
+  }
+});
+
 router.post("/", async (req, res) => {
   const { error } = validateNewUser(req.body);
   if (error) {
