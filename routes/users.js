@@ -31,6 +31,7 @@ router.get("/:id", async (req, res) => {
       dateCreated: user.dateCreated,
       tagsUsed: user.tagsUsed,
       savedRecipes: user.savedRecipes,
+      isAdmin: user.isAdmin,
     });
   } catch (error) {
     res.send(`There was an error ${error}`);
@@ -97,6 +98,7 @@ router.put("/:id", async (req, res) => {
     const user = await User.findByIdAndUpdate(req.params.id, {
       savedRecipes: req.body.savedRecipes,
       tagsUsed: tags,
+      isAdmin: req.body.isAdmin,
     });
     if (!user) {
       res.status(404).send("User not found");

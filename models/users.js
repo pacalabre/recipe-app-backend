@@ -55,6 +55,7 @@ const userSchema = new mongoose.Schema({
   tagsUsed: [],
   avatar: String,
   savedRecipes: [],
+  isAdmin: Boolean,
 });
 
 const User = new mongoose.model("User", userSchema);
@@ -68,6 +69,7 @@ function validateNewUser(userRequest) {
     password: Joi.string().min(8).max(200).required(),
     dateCreated: Joi.date(),
     tagsUsed: Joi.array(),
+    isAdmin: Joy.Boolean(),
   });
   return schema.validate(userRequest);
 }

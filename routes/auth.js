@@ -49,6 +49,7 @@ router.post("/register", (req, res) => {
           userName: req.body.userName,
           email: req.body.email,
           password: hashedPassword,
+          isAdmin: req.body.isAdmin,
         });
         newSavedUser = await newUser.save();
         res.send(newSavedUser);
