@@ -12,6 +12,7 @@ router.get("/user", (req, res) => {
     name: req.user.name,
     userName: req.user.userName,
     email: req.user.email,
+    isAdmin: req.user.isAdmin,
   };
   res.send(userToSend);
 });
@@ -30,6 +31,7 @@ router.post("/login", (req, res, next) => {
             name: user.name,
             userName: user.userName,
             email: user.email,
+            isAdmin: req.user.isAdmin,
           },
         });
       });
