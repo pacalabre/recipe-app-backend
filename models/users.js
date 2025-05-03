@@ -78,6 +78,7 @@ function validateUpdateUser(userRequest) {
   const schema = Joi.object({
     savedRecipes: Joi.array(),
     tagsUsed: Joi.array(),
+    isAdmin: Joi.boolean(),
   });
   return schema.validate(userRequest);
 }
