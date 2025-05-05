@@ -4,6 +4,7 @@ const passportConfig = require("../passportConfig")(passport);
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models/users");
+const Joi = require("joi");
 
 router.get("/user", (req, res) => {
   if (!req.user) res.status(404).send("There is no user currently logged in.");
@@ -40,6 +41,10 @@ router.post("/login", (req, res, next) => {
 });
 
 router.post("/register", (req, res) => {
+  const { error } = validateNewUser(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
   User.findOne({ userName: req.body.userName }, async (err, doc) => {
     if (err) throw err;
     if (doc) res.send("User Already Exists");
@@ -70,5 +75,25 @@ router.post("/logout", function (req, res) {
     res.send({ message: "User has been logged out" });
   });
 });
+
+function validateNewUser(userRequest) {
+  const schema = Joi.object({
+    id: Joi.string(),
+    name: Joi.string().min(1).max(80).required(),
+    userName: Joi.string().min(1).max(50).required(),
+    email: Joi.string().min(7).max(100).required(),
+    password: Joi.string()
+      .min(8)
+      .max(200)
+      .required()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      ),
+    dateCreated: Joi.date(),
+    tagsUsed: Joi.array(),
+    isAdmin: Joi.boolean(),
+  });
+  return schema.validate(userRequest);
+}
 
 module.exports = router;

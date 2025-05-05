@@ -66,7 +66,13 @@ function validateNewUser(userRequest) {
     name: Joi.string().min(1).max(80).required(),
     userName: Joi.string().min(1).max(50).required(),
     email: Joi.string().min(7).max(100).required(),
-    password: Joi.string().min(8).max(200).required(),
+    password: Joi.string()
+      .min(8)
+      .max(200)
+      .required()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      ),
     dateCreated: Joi.date(),
     tagsUsed: Joi.array(),
     isAdmin: Joy.Boolean(),
