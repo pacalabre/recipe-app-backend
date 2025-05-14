@@ -49,7 +49,6 @@ router.post("/", async (req, res) => {
       author: {
         _id: author._id,
         name: author.name,
-        userName: author.userName,
       },
       favorites: req.body.favorites,
       dateCreated: req.body.dateCreated,

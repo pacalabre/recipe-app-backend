@@ -26,7 +26,6 @@ router.get("/:id", async (req, res) => {
     res.send({
       id: user._id,
       name: user.name,
-      userName: user.userName,
       email: user.email,
       dateCreated: user.dateCreated,
       tagsUsed: user.tagsUsed,
@@ -70,7 +69,6 @@ router.post("/", async (req, res) => {
   try {
     const newUser = new User({
       name: req.body.name,
-      userName: req.body.userName,
       email: req.body.email,
       password: req.body.password,
     });
@@ -96,7 +94,6 @@ router.put("/:id", async (req, res) => {
 
   try {
     const user = await User.findByIdAndUpdate(req.params.id, {
-      savedRecipes: req.body.savedRecipes,
       tagsUsed: tags,
       isAdmin: req.body.isAdmin,
     });

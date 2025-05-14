@@ -11,7 +11,6 @@ router.get("/user", (req, res) => {
   const userToSend = {
     id: req.user.id,
     name: req.user.name,
-    userName: req.user.userName,
     email: req.user.email,
     isAdmin: req.user.isAdmin,
   };
@@ -30,7 +29,6 @@ router.post("/login", (req, res, next) => {
           user: {
             id: user._id,
             name: user.name,
-            userName: user.userName,
             email: user.email,
             isAdmin: req.user.isAdmin,
           },
@@ -45,15 +43,15 @@ router.post("/register", (req, res) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-  User.findOne({ userName: req.body.userName }, async (err, doc) => {
+  User.findOne({ email: req.body.email }, async (err, doc) => {
     if (err) throw err;
-    if (doc) res.send("User Already Exists");
+    if (doc) res.send("User Already Exists", doc);
+
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       try {
         const newUser = new User({
           name: req.body.name,
-          userName: req.body.userName,
           email: req.body.email,
           password: hashedPassword,
           isAdmin: req.body.isAdmin,
@@ -80,8 +78,11 @@ function validateNewUser(userRequest) {
   const schema = Joi.object({
     id: Joi.string(),
     name: Joi.string().min(1).max(80).required(),
-    userName: Joi.string().min(1).max(50).required(),
-    email: Joi.string().min(7).max(100).required(),
+    email: Joi.string()
+      .min(7)
+      .max(100)
+      .required()
+      .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
     password: Joi.string()
       .min(8)
       .max(200)

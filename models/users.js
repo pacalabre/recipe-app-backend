@@ -22,15 +22,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
   },
-  userName: {
-    type: String,
-    required: true,
-    minlength: 1,
-    maxlength: 50,
-    lowercase: true,
-    trim: true,
-    unique: true,
-  },
   email: {
     type: String,
     required: true,
@@ -64,7 +55,6 @@ function validateNewUser(userRequest) {
   const schema = Joi.object({
     id: Joi.string(),
     name: Joi.string().min(1).max(80).required(),
-    userName: Joi.string().min(1).max(50).required(),
     email: Joi.string().min(7).max(100).required(),
     password: Joi.string()
       .min(8)
