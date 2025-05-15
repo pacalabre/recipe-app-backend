@@ -44,7 +44,6 @@ router.post("/", async (req, res) => {
   try {
     const newRecipe = new Recipe({
       recipeName: req.body.recipeName,
-      subtitle: req.body.subtitle,
       image: req.body.image,
       author: {
         _id: author._id,
@@ -76,7 +75,6 @@ router.put("/:id", async (req, res) => {
   try {
     const recipe = await Recipe.findByIdAndUpdate(req.params.id, {
       recipeName: req.body.recipeName,
-      subtitle: req.body.subtitle,
       image: req.body.image,
       favorites: req.body.favorites,
       dateCreated: req.body.dateCreated,

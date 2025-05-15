@@ -11,13 +11,6 @@ const recipeSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
   },
-  subtitle: {
-    type: String,
-    minlength: 1,
-    maxlength: 280,
-    lowercase: true,
-    trim: true,
-  },
   image: String,
   author: {
     type: new mongoose.Schema({
@@ -79,7 +72,6 @@ function validateRecipe(userRequest) {
   const schema = Joi.object({
     id: Joi.string(),
     recipeName: Joi.string().min(1).max(50).required(),
-    subtitle: Joi.string().min(1).max(280).required(),
     image: Joi.string(),
     author: Joi.object().required(),
     favorites: Joi.array(),
