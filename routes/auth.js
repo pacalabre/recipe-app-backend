@@ -19,8 +19,11 @@ router.get("/user", (req, res) => {
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.status(401).send("Incorrect Email or Password");
+    if (!user)
+      res
+        .status(200)
+        .send({ message: "Incorrect Email or Password", user: {} });
+    if (err) res.send(err);
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
