@@ -6,12 +6,14 @@ const recipeSchema = new mongoose.Schema({
   recipeName: {
     type: String,
     required: true,
-    minlength: 1,
-    maxlength: 50,
+    maxlength: 150,
     lowercase: true,
     trim: true,
   },
-  image: String,
+  image: {
+    type: String,
+    required: true,
+  },
   author: {
     type: new mongoose.Schema({
       _id: {
@@ -44,20 +46,26 @@ const recipeSchema = new mongoose.Schema({
       }),
     },
   ],
-  link: String,
   recipeDifficulty: {
     type: Number,
-    minimum: 0,
+    minimum: 1,
     maximum: 5,
     required: true,
   },
-  totalMakeTime: String,
-  ingredients: String,
-  description: {
+  totalMakeTime: {
     type: String,
     required: true,
-    minlength: 1,
-    maxlength: 5000,
+    maxlength: 500,
+    trim: true,
+  },
+  ingredients: {
+    type: String,
+    required: true,
+    maxlength: 1000,
+  },
+  description: {
+    type: String,
+    maxlength: 250,
     trim: true,
   },
   recipeInstructions: {
@@ -71,21 +79,19 @@ const Recipe = new mongoose.model("Recipe", recipeSchema);
 function validateRecipe(userRequest) {
   const schema = Joi.object({
     id: Joi.string(),
-    recipeName: Joi.string().min(1).max(50).required(),
-    image: Joi.string(),
+    recipeName: Joi.string().max(150).required(),
+    image: Joi.string().required(),
     author: Joi.object().required(),
     favorites: Joi.array(),
     dateCreated: Joi.date(),
     updatedOnDate: Joi.date(),
     tags: Joi.array(),
     link: Joi.string(),
-    recipeDifficulty: Joi.number().min(1).max(5),
-    totalMakeTime: Joi.string(),
-    //ingredents should be required
-    ingredients: Joi.string(),
-    description: Joi.string().min(1).max(5000),
-    //recipeInstructions will be required, but not for initial form buildout
-    recipeInstructions: Joi.string(),
+    recipeDifficulty: Joi.number().min(1).max(5).required(),
+    totalMakeTime: Joi.string().max(500).required(),
+    ingredients: Joi.string().max(1000).required(),
+    description: Joi.string().max(250),
+    recipeInstructions: Joi.string().required(),
   });
   return schema.validate(userRequest);
 }
