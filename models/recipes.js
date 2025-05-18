@@ -90,7 +90,7 @@ function validateRecipe(userRequest) {
     recipeDifficulty: Joi.number().min(1).max(5).required(),
     totalMakeTime: Joi.string().max(500).required(),
     ingredients: Joi.string().max(1000).required(),
-    description: Joi.string().max(250),
+    description: Joi.string().max(250).allow(""),
     recipeInstructions: Joi.string().required(),
   });
   return schema.validate(userRequest);
