@@ -22,6 +22,17 @@ router.get("/:id", async (req, res) => {
     }
     res.send(recipe);
   } catch (error) {
+    if (error.kind === "ObjectId") {
+      return res.status(404).json({
+        errors: [
+          {
+            msg: "User not found",
+            status: "404",
+          },
+        ],
+      });
+    }
+    next(err);
     res.send(`There was an error ${error}`);
   }
 });
