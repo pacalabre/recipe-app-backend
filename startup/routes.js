@@ -14,6 +14,7 @@ require("dotenv").config();
 module.exports = function (app) {
   app.use(express.json());
   app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
+  //app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
   app.use(express.urlencoded({ extended: true }));
   app.use(
     session({
@@ -21,7 +22,8 @@ module.exports = function (app) {
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI,
+        //mongoUrl: "mongodb://localhost/caladine",
+        mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
       }),
       //cookie: { secure: true },
