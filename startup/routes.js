@@ -21,7 +21,7 @@ module.exports = function (app) {
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({
-        mongoUrl: `${process.env.MONGO_URI}`,
+        mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
       }),
     })
