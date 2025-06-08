@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
+const path = require("path");
 
 module.exports = function (app) {
   mongoose
-    .connect("mongodb://localhost/caladine")
+    .connect(process.env.MONGO_URI)
     .then(() => console.log("connected to mongo!"))
-    .catch((err) => console.log(`could not connect to mongo: ${err}`));
+    .catch((err) => {
+      console.log(`could not connect to mongo: ${err}`);
+    });
 };

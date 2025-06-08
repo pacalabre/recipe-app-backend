@@ -9,10 +9,11 @@ const recipes = require("../routes/recipes");
 const tags = require("../routes/tags");
 const auth = require("../routes/auth");
 const { default: mongoose } = require("mongoose");
+require("dotenv").config();
 
 module.exports = function (app) {
   app.use(express.json());
-  app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+  app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
   app.use(express.urlencoded({ extended: true }));
   app.use(
     session({
@@ -20,7 +21,7 @@ module.exports = function (app) {
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({
-        mongoUrl: "mongodb://localhost/caladine",
+        mongoUrl: process.env.MONGO_URI,
         ttl: 604800,
       }),
       //cookie: { secure: true },

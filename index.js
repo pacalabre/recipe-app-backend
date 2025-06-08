@@ -1,9 +1,12 @@
+require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const app = express();
 require("./startup/routes")(app);
 require("./startup/db")(app);
+require("./startup/prod")(app);
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
