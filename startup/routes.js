@@ -24,6 +24,8 @@ module.exports = function (app) {
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
       }),
+      sameSite: "none",
+      secure: true,
     })
   );
   app.use(cookieParser("placeholder"));
