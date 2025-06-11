@@ -15,6 +15,7 @@ module.exports = function (app) {
   app.use(express.json());
   app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
   app.use(express.urlencoded({ extended: true }));
+  app.set("trust proxy", 1);
   app.use(
     session({
       secret: `${process.env.SESSION_SECRET}`,
@@ -22,9 +23,6 @@ module.exports = function (app) {
       saveUninitialized: false,
       sameSite: "None",
       secure: true,
-      cookie: {
-        maxAge: 60 * 60 * 1000,
-      },
       store: MongoStore.create({
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
