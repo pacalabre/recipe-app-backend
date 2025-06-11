@@ -18,11 +18,12 @@ module.exports = function (app) {
   app.set("trust proxy", 1);
   app.use(
     session({
-      secret: `${process.env.SESSION_SECRET}`,
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       sameSite: "None",
       secure: true,
+      domain: process.env.FRONTEND_URL,
       store: MongoStore.create({
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
