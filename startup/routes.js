@@ -21,8 +21,9 @@ module.exports = function (app) {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      sameSite: "None",
+      sameSite: "none",
       secure: true,
+      httpOnly: true,
       domain: process.env.FRONTEND_URL,
       store: MongoStore.create({
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
