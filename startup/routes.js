@@ -20,6 +20,8 @@ module.exports = function (app) {
       secret: `${process.env.SESSION_SECRET}`,
       resave: false,
       saveUninitialized: false,
+      sameSite: "None",
+      secure: true,
       cookie: {
         maxAge: 60 * 60 * 1000,
       },
@@ -27,8 +29,6 @@ module.exports = function (app) {
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
       }),
-      sameSite: "none",
-      secure: true,
     })
   );
   app.use(cookieParser("placeholder"));
