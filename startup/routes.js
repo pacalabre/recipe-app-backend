@@ -24,7 +24,7 @@ module.exports = function (app) {
       sameSite: "none",
       secure: true,
       httpOnly: true,
-      domain: process.env.FRONTEND_URL,
+      domain: process.env.DOMAIN,
       store: MongoStore.create({
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
