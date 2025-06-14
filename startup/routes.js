@@ -28,11 +28,8 @@ module.exports = function (app) {
         sameSite: "none",
         secure: true,
         httpOnly: true,
+        maxAge: 604800,
       },
-      // sameSite: "none",
-      // secure: true,
-      // httpOnly: true,
-      // domain: process.env.DOMAIN,
       store: MongoStore.create({
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
