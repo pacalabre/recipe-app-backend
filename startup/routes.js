@@ -17,8 +17,8 @@ module.exports = function (app) {
   app.use(
     cors({
       credentials: true,
-      origin: process.env.FRONTEND_URL,
-      exposedHeaders: ["Set-Cookie"],
+      origin: [process.env.FRONTEND_URL, process.env.DOMAIN],
+      allowedHeaders: ["Origin, X-Requested-With, Content-Type, Accept"],
     })
   );
   app.use(express.urlencoded({ extended: true }));
