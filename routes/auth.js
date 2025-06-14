@@ -8,7 +8,7 @@ const Joi = require("joi");
 
 router.get("/user", (req, res) => {
   if (!req.user) res.status(404).send("There is no user currently logged in.");
-  console.log("session user", req.session.passport.user);
+  console.log("session user", req.session);
   const userToSend = {
     id: req.user.id,
     name: req.user.name,
