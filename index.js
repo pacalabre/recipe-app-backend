@@ -5,7 +5,7 @@ const app = express();
 app.set("trust proxy", 1);
 require("./startup/routes")(app);
 require("./startup/db")(app);
-require("./startup/prod")(app);
+// require("./startup/prod")(app);
 
 const port = process.env.PORT || 3001;
 
