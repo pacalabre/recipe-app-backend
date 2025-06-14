@@ -14,7 +14,13 @@ require("dotenv").config();
 module.exports = function (app) {
   app.set("trust proxy", 1);
   app.use(express.json());
-  app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
+  app.use(
+    cors({
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+      exposedHeaders: ["Set-Cookie"],
+    })
+  );
   app.use(express.urlencoded({ extended: true }));
   app.use(
     session({
