@@ -12,7 +12,6 @@ const { default: mongoose } = require("mongoose");
 require("dotenv").config();
 
 module.exports = function (app) {
-  app.set("trust proxy", 1);
   app.use(express.json());
   app.use(
     cors({
