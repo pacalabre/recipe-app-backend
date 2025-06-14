@@ -15,12 +15,10 @@ module.exports = function (app) {
   app.use(express.json());
   app.use(
     cors({
-      credentials: true,
       origin: [process.env.FRONTEND_URL, process.env.DOMAIN],
-      allowedHeaders: ["Origin, X-Requested-With, Content-Type, Accept"],
+      credentials: true,
     })
   );
-  app.use(express.urlencoded({ extended: true }));
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
@@ -29,13 +27,14 @@ module.exports = function (app) {
       sameSite: "none",
       secure: true,
       httpOnly: true,
-      domain: process.env.DOMAIN,
+      // domain: process.env.DOMAIN,
       store: MongoStore.create({
         mongoUrl: `${process.env.MONGO_URI}/caladine`,
         ttl: 604800,
       }),
     })
   );
+  app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(process.env.SESSION_SECRET));
   app.use(passport.initialize());
   app.use(passport.session());
