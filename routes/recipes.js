@@ -75,8 +75,6 @@ router.post("/", async (req, res) => {
   } catch (error) {
     res.send(`There was an error: ${error}`);
   }
-  // If tags are used, save them to the author
-  // Add recipe to the authors
 });
 
 router.put("/:id", async (req, res) => {

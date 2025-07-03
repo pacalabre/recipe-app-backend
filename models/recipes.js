@@ -12,7 +12,6 @@ const recipeSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
   },
   author: {
     type: new mongoose.Schema({
@@ -80,7 +79,7 @@ function validateRecipe(userRequest) {
   const schema = Joi.object({
     id: Joi.string(),
     recipeName: Joi.string().max(150).required(),
-    image: Joi.string().required(),
+    image: Joi.string(),
     author: Joi.object().required(),
     favorites: Joi.array(),
     dateCreated: Joi.date(),
